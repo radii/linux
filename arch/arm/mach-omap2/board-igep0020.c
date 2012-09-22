@@ -644,7 +644,12 @@ static void __init igep_init(void)
 	}
 }
 
-MACHINE_START(IGEP0020, "IGEP v2 board")
+static char const *igep0020_dt_compat[] __initdata = {
+	"isee,igep0020",
+	NULL,
+};
+
+DT_MACHINE_START(IGEP0020_DT, "IGEPv2 Board (Flattened Device Tree)")
 	.atag_offset	= 0x100,
 	.reserve	= omap_reserve,
 	.map_io		= omap3_map_io,
@@ -654,6 +659,7 @@ MACHINE_START(IGEP0020, "IGEP v2 board")
 	.init_machine	= igep_init,
 	.init_late	= omap35xx_init_late,
 	.timer		= &omap3_timer,
+	.dt_compat	= igep0020_dt_compat,
 	.restart	= omap_prcm_restart,
 MACHINE_END
 
