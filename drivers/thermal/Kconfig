@@ -20,7 +20,7 @@ config THERMAL_HWMON
 	default y
 
 config CPU_THERMAL
-	bool "generic cpu cooling support"
+	tristate "generic cpu cooling support"
 	depends on THERMAL && CPU_FREQ
 	select CPU_FREQ_TABLE
 	help
