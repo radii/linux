@@ -771,10 +771,6 @@ static int mt9v034_probe(struct i2c_client *client,
 			  V4L2_CID_VBLANK, MT9V034_VERTICAL_BLANKING_MIN,
 			  MT9V034_VERTICAL_BLANKING_MAX, 1,
 			  MT9V034_VERTICAL_BLANKING_DEF);
-	mt9v034->test_pattern = v4l2_ctrl_new_custom(&mt9v034->ctrls,
-				&mt9v034_ctrl_ops, V4L2_CID_TEST_PATTERN,
-				ARRAY_SIZE(mt9v034_test_pattern_menu) - 1, 0, 0,
-				mt9v034_test_pattern_menu);
 	mt9v034->test_pattern_color = v4l2_ctrl_new_custom(&mt9v034->ctrls,
 				      &mt9v034_test_pattern_color, NULL);
 	mt9v034->test_pattern = v4l2_ctrl_new_custom(&mt9v034->ctrls,
