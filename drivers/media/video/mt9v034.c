@@ -504,6 +504,7 @@ static int mt9v034_s_ctrl(struct v4l2_ctrl *ctrl)
 	u32 freq;
 	u16 data;
 
+	printk("mt9v034_s_ctrl id=0x%x(%d) val=0x%x(%d)\n", ctrl->id, ctrl->id, ctrl->val, ctrl->val);
 	switch (ctrl->id) {
 	case V4L2_CID_AUTOGAIN:
 		return mt9v034_update_aec_agc(mt9v034, MT9V034_AGC_ENABLE,
