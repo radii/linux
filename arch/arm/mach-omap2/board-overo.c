@@ -75,50 +75,50 @@
 
 #if defined(CONFIG_VIDEO_OMAP3) || defined(CONFIG_VIDEO_OMAP3_MODULE)
 
-#include <media/mt9v032.h>
+#include <media/mt9v034.h>
 #include "devices.h"
 #include "../../../drivers/media/video/omap3isp/isp.h"
 
-#define MT9V032_I2C_ADDR	0x5C
-#define MT9V032_I2C_BUS_NUM	3
+#define MT9V034_I2C_ADDR	0x5C
+#define MT9V034_I2C_BUS_NUM	3
 
-static void mt9v032_set_clock(struct v4l2_subdev *subdev, unsigned int rate)
+static void mt9v034_set_clock(struct v4l2_subdev *subdev, unsigned int rate)
 {
 	struct isp_device *isp = v4l2_dev_to_isp_device(subdev->v4l2_dev);
 
 	isp->platform_cb.set_xclk(isp, rate, ISP_XCLK_A);
 }
 
-static const s64 mt9v032_link_freqs[] = {
+static const s64 mt9v034_link_freqs[] = {
 	13000000,
 	26600000,
 	27000000,
 	0,
 };
 
-static struct mt9v032_platform_data mt9v032_platform_data = {
+static struct mt9v034_platform_data mt9v034_platform_data = {
 	.clk_pol = 0,
-	.set_clock = mt9v032_set_clock,
-	.link_freqs = mt9v032_link_freqs,
+	.set_clock = mt9v034_set_clock,
+	.link_freqs = mt9v034_link_freqs,
 	.link_def_freq = 26600000,
 };
 
-static struct i2c_board_info mt9v032_i2c_device = {
-	I2C_BOARD_INFO("mt9v032", MT9V032_I2C_ADDR),
-	.platform_data = &mt9v032_platform_data,
+static struct i2c_board_info mt9v034_i2c_device = {
+	I2C_BOARD_INFO("mt9v034", MT9V034_I2C_ADDR),
+	.platform_data = &mt9v034_platform_data,
 };
 
-static struct isp_subdev_i2c_board_info mt9v032_subdevs[] = {
+static struct isp_subdev_i2c_board_info mt9v034_subdevs[] = {
 	{
-		.board_info = &mt9v032_i2c_device,
-		.i2c_adapter_id = MT9V032_I2C_BUS_NUM,
+		.board_info = &mt9v034_i2c_device,
+		.i2c_adapter_id = MT9V034_I2C_BUS_NUM,
 	},
 	{ NULL, 0, },
 };
 
 static struct isp_v4l2_subdevs_group overo_camera_subdevs[] = {
 	{
-		.subdevs = mt9v032_subdevs,
+		.subdevs = mt9v034_subdevs,
 		.interface = ISP_INTERFACE_PARALLEL,
 		.bus = {
 				.parallel = {
