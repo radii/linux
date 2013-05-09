@@ -496,6 +496,8 @@ static int mt9v034_set_crop(struct v4l2_subdev *subdev,
 #define V4L2_CID_TEST_PATTERN_COLOR	(V4L2_CID_USER_BASE | 0x1001)
 #define V4L2_CID_TEST_PATTERN		(V4L2_CID_USER_BASE | 0x1002)
 
+#define V4L2_I2C_BACKDOOR		(V4L2_CID_PRIVATE_BASE | 0x42)
+
 static int mt9v034_s_ctrl(struct v4l2_ctrl *ctrl)
 {
 	struct mt9v034 *mt9v034 =
@@ -565,6 +567,39 @@ static int mt9v034_s_ctrl(struct v4l2_ctrl *ctrl)
 		}
 
 		return mt9v034_write(client, MT9V034_TEST_PATTERN, data);
+	case V4L2_I2C_BACKDOOR: { 
+		int reg = (ctrl->val >> 16) & 0xffff;
+		int val = (ctrl->val      ) & 0xffff;
+
+		switch (reg) {
+			default:
+				return -EINVAL;
+			case MT9V034_CHIP_VERSION:
+			case MT9V034_COLUMN_START:
+			case MT9V034_ROW_START:
+			case MT9V034_WINDOW_HEIGHT:
+			case MT9V034_WINDOW_WIDTH:
+			case MT9V034_HORIZONTAL_BLANKING:
+			case MT9V034_VERTICAL_BLANKING:
+			case MT9V034_CHIP_CONTROL:
+			case MT9V034_SHUTTER_WIDTH1:
+			case MT9V034_SHUTTER_WIDTH2:
+			case MT9V034_SHUTTER_WIDTH_CONTROL:
+			case MT9V034_TOTAL_SHUTTER_WIDTH:
+			case MT9V034_RESET:
+			case MT9V034_READ_MODE:
+			case MT9V034_SENSOR_TYPE_CONTROL:
+			case MT9V034_ANALOG_GAIN:
+			case MT9V034_BLACK_LEVEL_CALIBRATION_CONTROL:
+			case MT9V034_BLACK_LEVEL_CALIBRATION_VALUE:
+			case MT9V034_ROW_NOISE_CORR_CONTROL:
+			case MT9V034_PIXEL_CLOCK:
+			case MT9V034_TEST_PATTERN:
+			case MT9V034_AEC_AGC_ENABLE:
+				break;
+		}
+		return mt9v034_write(client, reg, val);
+	}
 	}
 
 	return 0;
