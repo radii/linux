@@ -541,32 +541,6 @@ static int mt9v034_s_ctrl(struct v4l2_ctrl *ctrl)
 		mt9v034->sysclk = freq;
 		break;
 
-	case V4L2_CID_TEST_PATTERN:
-		switch (mt9v034->test_pattern->val) {
-		case 0:
-			data = 0;
-			break;
-		case 1:
-			data = MT9V034_TEST_PATTERN_GRAY_VERTICAL
-			     | MT9V034_TEST_PATTERN_ENABLE;
-			break;
-		case 2:
-			data = MT9V034_TEST_PATTERN_GRAY_HORIZONTAL
-			     | MT9V034_TEST_PATTERN_ENABLE;
-			break;
-		case 3:
-			data = MT9V034_TEST_PATTERN_GRAY_DIAGONAL
-			     | MT9V034_TEST_PATTERN_ENABLE;
-			break;
-		default:
-			data = (ctrl->val << MT9V034_TEST_PATTERN_DATA_SHIFT)
-			     | MT9V034_TEST_PATTERN_USE_DATA
-			     | MT9V034_TEST_PATTERN_ENABLE
-			     | MT9V034_TEST_PATTERN_FLIP;
-			break;
-		}
-
-		return mt9v034_write(client, MT9V034_TEST_PATTERN, data);
 	case V4L2_I2C_BACKDOOR: { 
 		int reg = (ctrl->val >> 16) & 0xffff;
 		int val = (ctrl->val      ) & 0xffff;
