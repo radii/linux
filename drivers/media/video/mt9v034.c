@@ -496,7 +496,7 @@ static int mt9v034_set_crop(struct v4l2_subdev *subdev,
 #define V4L2_CID_TEST_PATTERN_COLOR	(V4L2_CID_USER_BASE | 0x1001)
 #define V4L2_CID_TEST_PATTERN		(V4L2_CID_USER_BASE | 0x1002)
 
-#define V4L2_I2C_BACKDOOR		0x9f0903
+#define V4L2_I2C_BACKDOOR		0x981902
 
 static int mt9v034_s_ctrl(struct v4l2_ctrl *ctrl)
 {
