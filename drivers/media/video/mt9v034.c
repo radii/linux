@@ -529,8 +529,7 @@ static int mt9v034_s_ctrl(struct v4l2_ctrl *ctrl)
 
 	case V4L2_CID_VBLANK:
 		return mt9v034_write(client, MT9V034_VERTICAL_BLANKING,
-				     ctrl->val);
-
+				     ctrl->val); 
 	case V4L2_CID_PIXEL_RATE:
 	case V4L2_CID_LINK_FREQ:
 		if (mt9v034->link_freq == NULL)
@@ -542,8 +541,16 @@ static int mt9v034_s_ctrl(struct v4l2_ctrl *ctrl)
 		break;
 
 	case V4L2_I2C_BACKDOOR: { 
-		int reg = (ctrl->val >> 16) & 0xffff;
-		int val = (ctrl->val      ) & 0xffff;
+		int regidx = (ctrl->val >>  7) & 0xff;
+		int reg;
+		int val = (ctrl->val      ) & 0x7f;
+		u8 regmap[] = { 0x01, 0x02, 0x03, 0x04, 0x0B, 0x47, 0x48, 0x70, 0xAF };
+#define NELEM(a) (sizeof(a) / sizeof((a)[0]))
+
+		if (regidx < 0 || regidx > NELEM(regmap))
+			return -EINVAL;
+
+		reg = regmap[regidx];
 
 		switch (reg) {
 			default:
